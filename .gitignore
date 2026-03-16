@@ -1,0 +1,58 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+
+# ========================
+# Maven / Build
+# ========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+logs/
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# ========================
+# IntelliJ IDEA
+# ========================
+*.iml
+*.iws
+*.ipr
+.idea/
+out/
+
+# ========================
+# Spring Boot / Java
+# ========================
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# ========================
+# Temporary files
+# ========================
+*.tmp
+*.swp
+*.bak
+*.orig
+
+# ========================
+# OS Files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Environment variables
+# ========================
+.env
+.env.local
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
