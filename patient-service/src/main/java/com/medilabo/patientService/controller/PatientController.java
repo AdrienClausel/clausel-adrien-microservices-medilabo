@@ -1,45 +1,42 @@
 package com.medilabo.patientService.controller;
 
 import com.medilabo.patientService.dto.PatientDto;
-import com.medilabo.patientService.model.Patient;
+import com.medilabo.patientService.mapper.IPatientMapper;
 import com.medilabo.patientService.service.IPatientService;
-import com.medilabo.patientService.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-@Controller
+@RestController
 public class PatientController {
 
     @Autowired
     private IPatientService patientService;
 
+    @Autowired
+    private IPatientMapper patientMapper;
+
+    @GetMapping("/patients")
+    public List<PatientDto> getAll(){
+        return patientMapper.toDTOList(patientService.getAll());
+    }
+
     @GetMapping("/patient/{id}")
-    public PatientDto getById(Long id) throws Exception {
+    public PatientDto getById(@PathVariable Long id) throws Exception {
 
         var patient = patientService.getById(id);
 
-        return new PatientDto(
-                patient.getFirstName(),
-                patient.getLastName(),
-                patient.getDateOfBirth(),
-                patient.getGender(),
-                patient.getPostalAddress(),
-                patient.getPhoneNumber()
-        );
+        return patientMapper.toDTO(patient);
     }
 
     @PutMapping("/patient/{id}")
-    public void update(Patient patient, Long id) throws Exception {
-        patientService.update(patient, id);
+    public void update(@PathVariable Long id, @RequestBody PatientDto patientDto) throws Exception {
+        patientService.update(patientMapper.toEntity(patientDto), id);
     }
 
     @PostMapping("/patient")
-    public void add(Patient patient){
-        patientService.add(patient);
+    public void add(@RequestBody PatientDto patientDto){
+        patientService.add(patientMapper.toEntity(patientDto));
     }
 
 }
