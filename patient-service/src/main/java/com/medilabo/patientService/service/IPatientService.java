@@ -10,6 +10,6 @@ public interface IPatientService {
     List<Patient> getAll();
 
     Patient getById(Long id) throws Exception;
-    void add(Patient patient);
-    void update(Patient patient, Long id) throws Exception;
+    Patient add(Patient patient);
+    Patient update(Patient patient, Long id) throws Exception;
 }

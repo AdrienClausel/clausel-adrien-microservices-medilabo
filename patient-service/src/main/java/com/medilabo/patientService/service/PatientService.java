@@ -31,14 +31,22 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public void add(Patient patient) {
-        patientRepository.save(patient);
+    public Patient add(Patient patient) {
+        return patientRepository.save(patient);
     }
 
     @Override
-    public void update(Patient patientUpdate, Long id) throws Exception {
+    public Patient update(Patient patientUpdate, Long id) throws Exception {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new Exception(""));
-        patientRepository.save(patient);
+
+        patient.setFirstName(patientUpdate.getFirstName());
+        patient.setLastName(patientUpdate.getLastName());
+        patient.setDateOfBirth(patientUpdate.getDateOfBirth());
+        patient.setGender(patientUpdate.getGender());
+        patient.setPostalAddress(patientUpdate.getPostalAddress());
+        patient.setPhoneNumber(patientUpdate.getPhoneNumber());
+
+        return patientRepository.save(patient);
     }
 }

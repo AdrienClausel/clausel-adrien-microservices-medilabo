@@ -2,8 +2,11 @@ package com.medilabo.patientService.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -14,7 +17,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private long id;
+    private Long id;
 
     @NotBlank(message = "le prénom est obligatoire")
     private String firstName;
@@ -22,7 +25,8 @@ public class Patient {
     @NotBlank(message = "le nom est obligatoire")
     private String lastName;
 
-    @NotBlank(message = "la date de naissance est obligatoire")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "la date de naissance est obligatoire")
     private Date dateOfBirth;
 
     @NotBlank(message = "le genre est obligatoire")
