@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<th:block th:fragment="content">
+
+    <div class="card">
+        <div class="page-header">
+            <!-- Titre dynamique selon ajout ou modification -->
+            <h2 th:text="${patient.id != null} ? 'Modifier le patient' : 'Nouveau patient'"></h2>
+        </div>
+
+        <!-- Action dynamique selon ajout ou modification -->
+        <form th:action="${patient.id != null}
+                ? @{/patients/{id}/form(id=${patient.id})}
+                : @{/patients/form}"
+              th:object="${patient}"
+              method="post">
+
+            <div class="form-group">
+                <label>Prénom *</label>
+                <input type="text" th:field="*{firstName}" placeholder="Prénom" />
+                <span class="error" th:if="${#fields.hasErrors('firstName')}"
+                      th:errors="*{firstName}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Nom *</label>
+                <input type="text" th:field="*{lastName}" placeholder="Nom" />
+                <span class="error" th:if="${#fields.hasErrors('lastName')}"
+                      th:errors="*{lastName}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Date de naissance *</label>
+                <input type="date" th:field="*{dateOfBirth}" />
+                <span class="error" th:if="${#fields.hasErrors('dateOfBirth')}"
+                      th:errors="*{dateOfBirth}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Genre *</label>
+                <select th:field="*{gender}">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="M">Masculin</option>
+                    <option value="F">Féminin</option>
+                </select>
+                <span class="error" th:if="${#fields.hasErrors('gender')}"
+                      th:errors="*{gender}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Adresse postale</label>
+                <input type="text" th:field="*{postalAddress}" placeholder="Adresse" />
+            </div>
+
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="text" th:field="*{phoneNumber}" placeholder="Téléphone" />
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a th:href="@{/patients}" class="btn" style="background:#ccc;">Annuler</a>
+            </div>
+
+        </form>
+    </div>
+
+</th:block>
+</body>
+</html>

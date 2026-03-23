@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<th:block th:fragment="content">
+
+    <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 70vh;
+        text-align: center;
+    ">
+        <!-- Logo SVG médical -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="120" height="120" viewBox="0 0 100 100"
+             style="margin-bottom: 30px;">
+            <!-- Cercle de fond -->
+            <circle cx="50" cy="50" r="48" fill="#2c3e50"/>
+            <!-- Croix médicale -->
+            <rect x="38" y="20" width="24" height="60" rx="4" fill="white"/>
+            <rect x="20" y="38" width="60" height="24" rx="4" fill="white"/>
+        </svg>
+
+        <h1 style="
+            font-size: 3rem;
+            color: #2c3e50;
+            letter-spacing: 4px;
+            font-family: Arial, sans-serif;
+            margin-bottom: 10px;
+        ">
+            MEDILABO
+        </h1>
+
+        <p style="
+            color: #7f8c8d;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            letter-spacing: 2px;
+        ">
+            Suivi médical des patients
+        </p>
+
+        <a th:href="@{/patients}" style="
+            margin-top: 40px;
+            padding: 12px 30px;
+            background-color: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        ">
+            Accéder aux patients
+        </a>
+    </div>
+
+</th:block>
+</body>
+</html>

@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: front
+
+gateway:
+  baseUrl: http://gateway:8080
+  patientsPath: /patients
+
