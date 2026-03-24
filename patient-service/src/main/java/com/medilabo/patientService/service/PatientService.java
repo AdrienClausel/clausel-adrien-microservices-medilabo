@@ -1,6 +1,7 @@
 package com.medilabo.patientService.service;
 
 import com.medilabo.patientService.dto.PatientDto;
+import com.medilabo.patientService.exception.PatientNotFoundException;
 import com.medilabo.patientService.mapper.IPatientMapper;
 import com.medilabo.patientService.model.Patient;
 import com.medilabo.patientService.repository.IPatientRepository;
@@ -27,7 +28,7 @@ public class PatientService implements IPatientService {
     @Override
     public Patient getById(Long id) throws Exception {
         return patientRepository.findById(id)
-                .orElseThrow(() -> new Exception(""));
+                .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class PatientService implements IPatientService {
     @Override
     public Patient update(Patient patientUpdate, Long id) throws Exception {
         Patient patient = patientRepository.findById(id)
-                .orElseThrow(() -> new Exception(""));
+                .orElseThrow(() -> new PatientNotFoundException(id));
 
         patient.setFirstName(patientUpdate.getFirstName());
         patient.setLastName(patientUpdate.getLastName());
