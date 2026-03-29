@@ -52,9 +52,40 @@ services:
     networks:
       - frontend-network
 
+  patient-notes-db:
+    image: mongo:6
+    container_name: patient-notes-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${PATIENT_NOTES_DB_NAME}
+    volumes:
+      - patient-notes-db-data:/data/db
+      - ./docker/patient-notes-db/init.sh:/docker-entrypoint-initdb.d/init.sh
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - backend-network
+
+  patient-notes-service:
+    build: ./patient-notes-service
+    container_name: patient-notes-service
+    environment:
+      PATIENT_NOTES_DB_NAME: ${PATIENT_NOTES_DB_NAME}
+      PATIENT_NOTES_DB_USER: ${PATIENT_NOTES_DB_USER}
+      PATIENT_NOTES_DB_PASSWORD: ${PATIENT_NOTES_DB_PASSWORD}
+    depends_on:
+      patient-notes-db:
+        condition: service_healthy
+    networks:
+      - backend-network
 
 volumes:
   patient-db-data:
+  patient-notes-db-data:
 
 networks:
   frontend-network:

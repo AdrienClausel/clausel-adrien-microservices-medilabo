@@ -14,3 +14,8 @@ spring:
               uri: http://patient-service:8080
               predicates:
                 - Path=/patients/**
+
+            - id: patient-notes-service
+              uri: http://patient-notes-service:8080
+              - predicates:
+                  - Path=/patient-notes/**

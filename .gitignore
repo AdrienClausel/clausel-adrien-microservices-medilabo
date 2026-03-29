@@ -55,4 +55,5 @@ Thumbs.db
 # Docker
 # ========================
 docker-data/
+docker
 *.pid
