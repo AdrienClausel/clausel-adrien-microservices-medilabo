@@ -27,13 +27,15 @@ public class PatientController {
     public String viewPatient(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getById(id));
         model.addAttribute("readOnly", true);
-        return "patients/form"; // réutilise le même template
+        model.addAttribute("pageTitle", "Patient");
+        return "patients/form";
     }
 
     @GetMapping("/form")
     public String showForm(Model model){
         model.addAttribute("patient", new PatientDto());
         model.addAttribute("readOnly", false);
+        model.addAttribute("pageTitle", "Nouveau patient");
         return "patients/form";
     }
 
@@ -51,6 +53,7 @@ public class PatientController {
     public String showEditForm(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getById(id));
         model.addAttribute("readOnly", false);
+        model.addAttribute("pageTitle", "Modifier le patient");
         return "patients/form";
     }
 

@@ -6,11 +6,9 @@
 
     <div class="card">
         <div class="page-header">
-            <!-- Titre dynamique selon ajout ou modification -->
-            <h2 th:text="${patient.id != null} ? 'Modifier le patient' : 'Nouveau patient'"></h2>
+            <h2 th:text="${pageTitle}"></h2>
         </div>
 
-        <!-- Action dynamique selon ajout ou modification -->
         <form th:action="${patient.id != null}
                 ? @{/patients/{id}/form(id=${patient.id})}
                 : @{/patients/form}"

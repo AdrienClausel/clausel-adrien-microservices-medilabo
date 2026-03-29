@@ -10,8 +10,6 @@ services:
       MYSQL_DATABASE: ${PATIENT_DB_NAME}
       MYSQL_USER: ${PATIENT_DB_USER}
       MYSQL_PASSWORD: ${PATIENT_DB_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
       - patient-db-data:/var/lib/mysql
     healthcheck:
@@ -19,12 +17,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+    networks:
+      - backend-network
 
   patient-service:
     build: ./patient-service
     container_name: patient-service
-    ports:
-      - "8082:8080"
     environment:
       PATIENT_DB_NAME: ${PATIENT_DB_NAME}
       PATIENT_DB_USER: ${PATIENT_DB_USER}
@@ -32,14 +30,17 @@ services:
     depends_on:
       patient-db:
         condition: service_healthy
+    networks:
+      - backend-network
 
   gateway:
     build: ./gateway
     container_name: gateway
-    ports:
-      - "8080:8080"
     depends_on:
       - patient-service
+    networks:
+      - backend-network
+      - frontend-network
 
   front:
     build: ./front
@@ -48,6 +49,15 @@ services:
       - "8081:8080"
     depends_on:
       - gateway
+    networks:
+      - frontend-network
+
 
 volumes:
   patient-db-data:
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
