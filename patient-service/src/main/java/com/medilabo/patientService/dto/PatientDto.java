@@ -1,5 +1,6 @@
 package com.medilabo.patientService.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,9 @@ public class PatientDto {
     @NotBlank(message = "le nom est obligatoire")
     private String lastName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "la date de naissance est obligatoire")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotBlank(message = "le genre est obligatoire")
     private String gender;

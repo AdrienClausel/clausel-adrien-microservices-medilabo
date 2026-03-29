@@ -5,6 +5,10 @@ spring:
   application:
     name: front
 
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
 gateway:
   baseUrl: http://gateway:8080
   patientsPath: /patients

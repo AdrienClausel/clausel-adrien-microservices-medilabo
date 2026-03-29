@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class PatientControllerTest {
 
     @Test
     void shouldReturnAllPatients() throws Exception {
-        PatientDto dto = new PatientDto(1L, "Jean", "Moulin", new Date(1990,1,1), "M", null, null);
+        PatientDto dto = new PatientDto(1L, "Jean", "Moulin", LocalDate.of(1990,1,1), "M", null, null);
         when(patientMapper.toDTOList(any())).thenReturn(List.of(dto));
 
         mockMvc.perform(get("/patients"))
@@ -49,7 +50,7 @@ public class PatientControllerTest {
     @Test
     void shouldReturnPatientById() throws Exception {
         Patient patient = new Patient();
-        PatientDto dto = new PatientDto(1L, "Jean", "Moulin", new Date(1990,1,1), "M", null, null);
+        PatientDto dto = new PatientDto(1L, "Jean", "Moulin", LocalDate.of(1990,1,1), "M", null, null);
 
         when(patientService.getById(1L)).thenReturn(patient);
         when(patientMapper.toDTO(patient)).thenReturn(dto);

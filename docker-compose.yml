@@ -13,7 +13,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./docker/patient-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - patient-db-data:/var/lib/mysql
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
@@ -48,3 +48,6 @@ services:
       - "8081:8080"
     depends_on:
       - gateway
+
+volumes:
+  patient-db-data:

@@ -19,28 +19,32 @@
 
             <div class="form-group">
                 <label>Prénom *</label>
-                <input type="text" th:field="*{firstName}" placeholder="Prénom" />
+                <input type="text" th:field="*{firstName}" th:readonly="${readOnly}" placeholder="Prénom" />
                 <span class="error" th:if="${#fields.hasErrors('firstName')}"
                       th:errors="*{firstName}"></span>
             </div>
 
             <div class="form-group">
                 <label>Nom *</label>
-                <input type="text" th:field="*{lastName}" placeholder="Nom" />
+                <input type="text" th:field="*{lastName}" th:readonly="${readOnly}" placeholder="Nom" />
                 <span class="error" th:if="${#fields.hasErrors('lastName')}"
                       th:errors="*{lastName}"></span>
             </div>
 
             <div class="form-group">
                 <label>Date de naissance *</label>
-                <input type="date" th:field="*{dateOfBirth}" />
+                <input  type="date"
+                        id="dateOfBirth"
+                        name="dateOfBirth"
+                        th:value="${#temporals.format(patient.dateOfBirth, 'yyyy-MM-dd')}"
+                        th:readonly="${readOnly}" />
                 <span class="error" th:if="${#fields.hasErrors('dateOfBirth')}"
                       th:errors="*{dateOfBirth}"></span>
             </div>
 
             <div class="form-group">
                 <label>Genre *</label>
-                <select th:field="*{gender}">
+                <select th:field="*{gender}" th:disabled="${readOnly}">
                     <option value="">-- Sélectionner --</option>
                     <option value="M">Masculin</option>
                     <option value="F">Féminin</option>
@@ -51,17 +55,18 @@
 
             <div class="form-group">
                 <label>Adresse postale</label>
-                <input type="text" th:field="*{postalAddress}" placeholder="Adresse" />
+                <input type="text" th:field="*{postalAddress}" th:readonly="${readOnly}" placeholder="Adresse" />
             </div>
 
             <div class="form-group">
                 <label>Téléphone</label>
-                <input type="text" th:field="*{phoneNumber}" placeholder="Téléphone" />
+                <input type="text" th:field="*{phoneNumber}" th:readonly="${readOnly}" placeholder="Téléphone" />
             </div>
 
             <div style="display:flex; gap:10px; margin-top:20px;">
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <a th:href="@{/patients}" class="btn" style="background:#ccc;">Annuler</a>
+                <button type="submit" th:unless="${readOnly}" class="btn btn-primary">Enregistrer</button>
+                <a th:href="@{/patients}" th:unless="${readOnly}" class="btn" style="background:#ccc;">Annuler</a>
+                <a th:href="@{/patients}" th:if="${readOnly}" class="btn" style="background:#ccc;">Retour à la liste</a>
             </div>
         </form>
     </div>
