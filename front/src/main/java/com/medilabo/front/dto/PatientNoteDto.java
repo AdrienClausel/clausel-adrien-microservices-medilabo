@@ -18,6 +18,6 @@ public class PatientNoteDto {
     @NotBlank(message = "le nom du patient est obligatoire")
     private String patient;
 
-    @NotBlank(message = "le note est obligatoire")
+    @NotBlank(message = "la note est obligatoire")
     private String note;
 }
