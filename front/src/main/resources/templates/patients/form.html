@@ -67,6 +67,52 @@
                 <a th:href="@{/patients}" th:if="${readOnly}" class="btn" style="background:#ccc;">Retour à la liste</a>
             </div>
         </form>
+
+        <div th:if="${readOnly}" style="margin-top: 40px;">
+            <div class="page-header">
+                <h3>Notes du médecin</h3>
+            </div>
+            <div>
+                <form th:action="@{/patients/{id}/notes(id=${patient.id})}"
+                      method="post"
+                      style="display:flex; gap:10px; align-items:start;">
+                    <textarea name="note"
+                              placeholder="Ajouter une note..."
+                              rows="4"
+                              style="
+                                padding: 8px;
+                                border: 1px solid #ccc;
+                                border-radius: 4px;
+                                width: 100%;
+                                font-family: Arial, sans-serif;
+                                font-size: 0.9rem;
+                                resize: vertical;
+                                margin-bottom: 40px;
+                    "></textarea>
+                    <input type="hidden" name="lastName" th:value="${patient.lastName}" />
+                    <button type="submit" class="btn btn-primary">+ Ajouter</button>
+                </form>
+            </div>
+
+            <table th:if="${notes != null and !#lists.isEmpty(notes)}">
+                <thead>
+                <tr>
+                    <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes}">
+                    <td th:text="${note.note}" style="white-space: pre-wrap;"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <p th:if="${notes == null or #lists.isEmpty(notes)}"
+               style="color:#999; margin-top:10px;">
+                Aucune note enregistrée
+            </p>
+        </div>
+
     </div>
 </th:block>
 </body>

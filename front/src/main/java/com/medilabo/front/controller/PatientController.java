@@ -2,6 +2,8 @@ package com.medilabo.front.controller;
 
 
 import com.medilabo.front.dto.PatientDto;
+import com.medilabo.front.dto.PatientNoteDto;
+import com.medilabo.front.service.IPatientNoteService;
 import com.medilabo.front.service.IPatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class PatientController {
     @Autowired
     private IPatientService patientService;
 
+    @Autowired
+    private IPatientNoteService patientNoteService;
+
     @GetMapping()
     public String getAll(Model model){
         model.addAttribute("patients", patientService.getALL());
@@ -26,6 +31,7 @@ public class PatientController {
     @GetMapping("/{id}")
     public String viewPatient(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getById(id));
+        model.addAttribute("notes", patientNoteService.getNotesByPatientId(id));
         model.addAttribute("readOnly", true);
         model.addAttribute("pageTitle", "Patient");
         return "patients/form";
@@ -68,4 +74,13 @@ public class PatientController {
         return "redirect:/patients";
     }
 
+    @PostMapping("/{id}/notes")
+    public String addNote(@PathVariable Long id, @RequestParam String note, @RequestParam String lastName){
+        PatientNoteDto patientNoteDto = new PatientNoteDto();
+        patientNoteDto.setPatId(id);
+        patientNoteDto.setNote(note);
+        patientNoteDto.setPatient(lastName);
+        patientNoteService.add(patientNoteDto);
+        return "redirect:/patients/" + id;
+    }
 }

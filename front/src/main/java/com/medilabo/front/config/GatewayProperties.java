@@ -13,5 +13,6 @@ public class GatewayProperties {
 
     private String baseUrl;
     private String patientsPath;
+    private String patientNotesPath;
 
 }
