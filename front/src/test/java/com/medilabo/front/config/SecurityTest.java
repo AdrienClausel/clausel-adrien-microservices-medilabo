@@ -1,11 +1,11 @@
 package com.medilabo.front.config;
 
 import com.medilabo.front.controller.PatientController;
+import com.medilabo.front.service.IPatientNoteService;
 import com.medilabo.front.service.IPatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +22,9 @@ public class SecurityTest {
 
     @MockitoBean
     private IPatientService patientService;
+
+    @MockitoBean
+    private IPatientNoteService patientNoteService;
 
     @Test
     void shouldRedirectToLoginWhenNotAuthenticated() throws Exception {

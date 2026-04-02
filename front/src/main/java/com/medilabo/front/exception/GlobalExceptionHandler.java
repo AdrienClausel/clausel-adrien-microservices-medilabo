@@ -1,8 +1,7 @@
 package com.medilabo.front.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -12,14 +11,18 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(NoResourceFoundException ex) {
+    public String handleNotFoundException(NoResourceFoundException ex, Model model) {
         log.error(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ressource non trouvée");
+        model.addAttribute("status",404);
+        model.addAttribute("message", "Ressource non trouvée");
+        return "error";
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception ex) {
+    public String handleException(Exception ex, Model model) {
         log.error(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        model.addAttribute("status", 500);
+        model.addAttribute("message", "Une erreur est survenue");
+        return "error";
     }
 }

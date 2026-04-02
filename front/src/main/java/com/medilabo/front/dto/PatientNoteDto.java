@@ -1,6 +1,7 @@
 package com.medilabo.front.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ public class PatientNoteDto {
 
     private String id;
 
-    @NotBlank(message = "l'identifiant du patient est obligatoire")
+    @NotNull(message = "l'identifiant du patient est obligatoire")
     private Long patId;
 
     @NotBlank(message = "le nom du patient est obligatoire")

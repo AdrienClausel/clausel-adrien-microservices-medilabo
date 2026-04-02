@@ -1,6 +1,8 @@
 package com.medilabo.front.controller;
 
 import com.medilabo.front.dto.PatientDto;
+import com.medilabo.front.dto.PatientNoteDto;
+import com.medilabo.front.service.IPatientNoteService;
 import com.medilabo.front.service.IPatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class PatientControllerTest {
 
     @MockitoBean
     private IPatientService patientService;
+
+    @MockitoBean
+    private IPatientNoteService patientNoteService;
 
     @Test
     @WithMockUser(username = "user")
@@ -71,7 +76,7 @@ public class PatientControllerTest {
     void shouldReturnFormWhenValidationFails() throws Exception {
         mockMvc.perform(post("/patients/form")
                         .with(csrf())
-                        .param("firstName", "")  // ← vide, doit échouer
+                        .param("firstName", "")
                         .param("lastName", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("patients/form"));
@@ -101,6 +106,34 @@ public class PatientControllerTest {
                         .param("gender", "M"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/patients"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void shouldDisplayPatientDetail() throws Exception {
+        PatientDto patientDto = new PatientDto(1L, "Jean", "Moulin", LocalDate.of(2001,1,1), "M", null, null);
+        PatientNoteDto patientNoteDto = new PatientNoteDto("1245hjh", 1L, "Moulin", "une note");
+
+        when(patientService.getById(1L)).thenReturn(patientDto);
+        when(patientNoteService.getNotesByPatientId(1L)).thenReturn(List.of(patientNoteDto));
+
+        mockMvc.perform(get("/patients/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("patients/form"))
+                .andExpect(model().attribute("readOnly", true))
+                .andExpect(model().attributeExists("patient"))
+                .andExpect(model().attributeExists("notes"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void shouldAddNoteAndRedirect() throws Exception {
+        mockMvc.perform(post("/patients/1/notes")
+                        .with(csrf())
+                        .param("note", "une note")
+                        .param("lastName", "Moulin"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/patients/1"));
     }
 
 }
