@@ -10,5 +10,6 @@
         <module>gateway</module>
         <module>front</module>
         <module>patient-service</module>
+        <module>patient-notes-service</module>
     </modules>
 </project>

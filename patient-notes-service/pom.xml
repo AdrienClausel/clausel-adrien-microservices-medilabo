@@ -11,8 +11,8 @@
 	<groupId>com.medilabo</groupId>
 	<artifactId>patientNotesService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+    <name>patientNotesService</name>
+    <description>patient notes service medilabo</description>
 	<url/>
 	<licenses>
 		<license/>
