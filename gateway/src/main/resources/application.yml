@@ -19,3 +19,8 @@ spring:
               uri: http://patient-notes-service:8080
               predicates:
                 - Path=/patient-notes/**
+
+            - id: patient-diabetes-risk-service
+              uri: http://patient-diabetes-risk-service:8080
+              predicates:
+                - Path=/patient-diabetes-risk/**

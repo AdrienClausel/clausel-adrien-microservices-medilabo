@@ -11,5 +11,6 @@
         <module>front</module>
         <module>patient-service</module>
         <module>patient-notes-service</module>
+        <module>patient-diabetes-risk-service</module>
     </modules>
 </project>

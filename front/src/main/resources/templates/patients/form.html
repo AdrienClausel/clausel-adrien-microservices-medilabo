@@ -69,6 +69,20 @@
         </form>
 
         <div th:if="${readOnly}" style="margin-top: 40px;">
+            <div class="page-header" style="">
+                <h3>Risque de diabète : </h3>
+                <div
+                        th:text="${diabetesRisk}"
+                        class="diabetes-risk-box"
+                        th:classappend="
+                            ${diabetesRisk == 'aucun risque'} ? ' diabetes-risk-none' :
+                            (${diabetesRisk == 'risque limité'} ? ' diabetes-risk-borderline' :
+                            (${diabetesRisk == 'danger'} ? ' diabetes-risk-danger' :
+                            (${diabetesRisk == 'apparition précoce'} ? ' diabetes-risk-early' : '')))
+                ">
+                </div>
+            </div>
+
             <div class="page-header">
                 <h3>Notes du médecin</h3>
             </div>

@@ -1,6 +1,5 @@
 package com.medilabo.patientService.service;
 
-import com.medilabo.patientService.dto.PatientDto;
 import com.medilabo.patientService.model.Patient;
 
 import java.util.List;

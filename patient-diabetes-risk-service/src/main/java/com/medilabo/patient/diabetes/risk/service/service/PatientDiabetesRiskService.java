@@ -91,7 +91,7 @@ public class PatientDiabetesRiskService implements IPatientDiabetesRiskService {
         return triggerTerms.stream()
                 .filter(triggerTerm ->
                         notes.stream()
-                                .anyMatch(note -> note.getNote().contains(triggerTerm))
+                                .anyMatch(note -> note.getNote().toLowerCase().contains(triggerTerm.toLowerCase()))
                 )
                 .count();
     }

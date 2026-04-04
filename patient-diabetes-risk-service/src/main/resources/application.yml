@@ -1,3 +1,7 @@
 spring:
   application:
     name: patient-diabetes-risk-service
+
+services:
+  patients-url: http://patient-service:8080
+  patient-notes-url: http://patient-notes-service:8080

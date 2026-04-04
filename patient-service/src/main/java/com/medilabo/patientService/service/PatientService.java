@@ -1,6 +1,5 @@
 package com.medilabo.patientService.service;
 
-import com.medilabo.patientService.dto.PatientDto;
 import com.medilabo.patientService.exception.PatientNotFoundException;
 import com.medilabo.patientService.mapper.IPatientMapper;
 import com.medilabo.patientService.model.Patient;

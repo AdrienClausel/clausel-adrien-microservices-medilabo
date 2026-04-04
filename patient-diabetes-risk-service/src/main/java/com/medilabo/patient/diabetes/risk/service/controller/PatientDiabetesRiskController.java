@@ -15,7 +15,7 @@ public class PatientDiabetesRiskController {
     @Autowired
     private IPatientDiabetesRiskService patientDiabetesRiskService;
 
-    @GetMapping("{patientId}")
+    @GetMapping("/{patientId}")
     public RiskLevel getRiskLevel(@PathVariable Long patientId){
         return patientDiabetesRiskService.getRiskLevelForPatient(patientId);
     }

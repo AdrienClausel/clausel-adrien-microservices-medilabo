@@ -149,3 +149,28 @@ tr:hover { background-color: #f9f9f9; }
     width: 100%;
     text-align: left;
 }
+
+.diabetes-risk-box {
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.diabetes-risk-none {
+    background-color: #4CAF50;
+}
+
+.diabetes-risk-borderline {
+    background-color: #FFC107;
+    color: black;
+}
+
+.diabetes-risk-danger {
+    background-color: #FF5722;
+}
+
+.diabetes-risk-early {
+    background-color: #D32F2F;
+}

@@ -2,6 +2,7 @@ package com.medilabo.front.controller;
 
 import com.medilabo.front.dto.PatientDto;
 import com.medilabo.front.dto.PatientNoteDto;
+import com.medilabo.front.service.IPatientDiabetesRiskService;
 import com.medilabo.front.service.IPatientNoteService;
 import com.medilabo.front.service.IPatientService;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,9 @@ public class PatientControllerTest {
 
     @MockitoBean
     private IPatientNoteService patientNoteService;
+
+    @MockitoBean
+    private IPatientDiabetesRiskService patientDiabetesRiskService;
 
     @Test
     @WithMockUser(username = "user")

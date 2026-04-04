@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "gateway")
-public class GatewayProperties {
+@ConfigurationProperties(prefix = "services")
+public class ServiceProperties {
 
-    private String baseUrl;
-    private String patientsPath;
-    private String patientNotesPath;
+    private String patientsUrl;
+    private String patientNotesUrl;
 
 }

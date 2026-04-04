@@ -11,8 +11,8 @@
 	<groupId>com.medilabo</groupId>
 	<artifactId>patient-diabetes-risk-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+    <name>patientDiabetesRiskService</name>
+    <description>patient diabetes risk service medilabo</description>
 	<url/>
 	<licenses>
 		<license/>

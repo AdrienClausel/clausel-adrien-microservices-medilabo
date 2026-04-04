@@ -1,6 +1,7 @@
 package com.medilabo.front.config;
 
 import com.medilabo.front.controller.PatientController;
+import com.medilabo.front.service.IPatientDiabetesRiskService;
 import com.medilabo.front.service.IPatientNoteService;
 import com.medilabo.front.service.IPatientService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ public class SecurityTest {
 
     @MockitoBean
     private IPatientNoteService patientNoteService;
+
+    @MockitoBean
+    private IPatientDiabetesRiskService patientDiabetesRiskService;
 
     @Test
     void shouldRedirectToLoginWhenNotAuthenticated() throws Exception {

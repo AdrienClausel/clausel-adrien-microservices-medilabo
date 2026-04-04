@@ -1,8 +1,8 @@
 package com.medilabo.front.controller;
 
-
 import com.medilabo.front.dto.PatientDto;
 import com.medilabo.front.dto.PatientNoteDto;
+import com.medilabo.front.service.IPatientDiabetesRiskService;
 import com.medilabo.front.service.IPatientNoteService;
 import com.medilabo.front.service.IPatientService;
 import jakarta.validation.Valid;
@@ -22,6 +22,9 @@ public class PatientController {
     @Autowired
     private IPatientNoteService patientNoteService;
 
+    @Autowired
+    private IPatientDiabetesRiskService patientDiabetesRiskService;
+
     @GetMapping()
     public String getAll(Model model){
         model.addAttribute("patients", patientService.getALL());
@@ -32,6 +35,7 @@ public class PatientController {
     public String viewPatient(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getById(id));
         model.addAttribute("notes", patientNoteService.getNotesByPatientId(id));
+        model.addAttribute("diabetesRisk", patientDiabetesRiskService.getRiskLevelForPatient(id));
         model.addAttribute("readOnly", true);
         model.addAttribute("pageTitle", "Patient");
         return "patients/form";

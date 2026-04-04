@@ -10,7 +10,8 @@ spring:
       write-dates-as-timestamps: false
 
 gateway:
-  baseUrl: http://gateway:8080
-  patientsPath: /patients
-  patientNotesPath: /patient-notes
+  base-url: http://gateway:8080
+  patients-path: /patients
+  patient-notes-path: /patient-notes
+  patient-diabetes-risk-path: /patient-diabetes-risk
 

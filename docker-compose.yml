@@ -85,6 +85,14 @@ services:
     networks:
       - backend-network
 
+  patient-diabetes-risk-service:
+    build: ./patient-diabetes-risk-service
+    container_name: patient-diabetes-risk-service
+    depends_on:
+      - patient-notes-service
+    networks:
+      - backend-network
+
 volumes:
   patient-db-data:
   patient-notes-db-data:
