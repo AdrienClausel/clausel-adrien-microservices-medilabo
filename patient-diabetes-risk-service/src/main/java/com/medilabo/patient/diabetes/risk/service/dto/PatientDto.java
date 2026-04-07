@@ -1,6 +1,7 @@
 package com.medilabo.patient.diabetes.risk.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.medilabo.patient.diabetes.risk.service.constant.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

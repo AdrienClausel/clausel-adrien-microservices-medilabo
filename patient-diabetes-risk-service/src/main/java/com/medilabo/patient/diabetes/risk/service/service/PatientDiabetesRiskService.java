@@ -9,6 +9,11 @@ import com.medilabo.patient.diabetes.risk.service.dto.PatientNoteDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -23,25 +28,17 @@ public class PatientDiabetesRiskService implements IPatientDiabetesRiskService {
     @Autowired
     private IPatientNoteClient patientNoteClient;
 
-    private final List<String> triggerTerms;
+    private List<String> triggerTerms;
 
-    PatientDiabetesRiskService() {
-        triggerTerms = List.of(
-                "Hémoglobine A1C",
-                "Microalbumine",
-                "Taille",
-                "Poids",
-                "Fumeur",
-                "Fumeuse",
-                "Anormal",
-                "Cholestérol",
-                "Vertiges",
-                "Rechute",
-                "Réaction",
-                "Anticorps"
-        );
+    PatientDiabetesRiskService() throws IOException {
+        loadTriggerTerms();
     }
 
+    /**
+     * Renvoie le niveau de risque d'un patient en fonction de son profil et de ses notes médicales
+     * @param id identifiant du patient
+     * @return Le niveau de risque évalué
+     */
     @Override
     public RiskLevel getRiskLevelForPatient(Long id) {
 
@@ -87,6 +84,12 @@ public class PatientDiabetesRiskService implements IPatientDiabetesRiskService {
         return RiskLevel.None;
     }
 
+    /**
+     * Compte le nombre de termes déclencheurs distincts présents dans les notes du patient
+     * @param triggerTerms la liste des termes déclencheurs à rechercher
+     * @param notes notes du patient
+     * @return le nombre de termes déclencheurs distincts détectés
+     */
     private long getNumberTriggerTermInNote(List<String> triggerTerms, List<PatientNoteDto> notes) {
         return triggerTerms.stream()
                 .filter(triggerTerm ->
@@ -96,15 +99,45 @@ public class PatientDiabetesRiskService implements IPatientDiabetesRiskService {
                 .count();
     }
 
+    /**
+     * Renvoie l'âge du patient
+     * @param patientDto information du patient
+     * @return l'âge du patient en années
+     */
     private int getAge(PatientDto patientDto) {
         return Period.between(patientDto.getDateOfBirth(), LocalDate.now()).getYears();
     }
 
+    /**
+     * Détermine si le patient est de genre masculin
+     * @param patientDto information du patient
+     * @return vrai si le patient est de genre masculin sinon faux
+     */
     private boolean isMale(PatientDto patientDto) {
         return Objects.equals(patientDto.getGender(), Gender.male);
     }
 
+    /**
+     * Détermine si le patient est de genre féminin
+     * @param patientDto information du patient
+     * @return vrai si le patient est de genre féminin sinon faux
+     */
     private boolean isFemale(PatientDto patientDto) {
         return Objects.equals(patientDto.getGender(), Gender.female);
+    }
+
+    /**
+     * Charge les termes déclencheurs depuis un fichier
+     * Chaque ligne non vide dans le fichier est pris en compte comme un terme déclencheur.
+     * @throws IOException génération d'une exception si le fichier est introuvable ou illisible
+     */
+    private void loadTriggerTerms() throws IOException {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("triggerTerms.txt")) {
+            assert is != null;
+            triggerTerms = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))
+                    .lines()
+                    .filter(line -> !line.isBlank())
+                    .toList();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.medilabo.front.controller;
 
+import com.medilabo.front.constant.RiskLevel;
 import com.medilabo.front.dto.PatientDto;
 import com.medilabo.front.dto.PatientNoteDto;
 import com.medilabo.front.service.IPatientDiabetesRiskService;
@@ -120,13 +121,15 @@ public class PatientControllerTest {
 
         when(patientService.getById(1L)).thenReturn(patientDto);
         when(patientNoteService.getNotesByPatientId(1L)).thenReturn(List.of(patientNoteDto));
+        when(patientDiabetesRiskService.getRiskLevelForPatient(1L)).thenReturn(String.valueOf(RiskLevel.None));
 
         mockMvc.perform(get("/patients/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("patients/form"))
                 .andExpect(model().attribute("readOnly", true))
                 .andExpect(model().attributeExists("patient"))
-                .andExpect(model().attributeExists("notes"));
+                .andExpect(model().attributeExists("notes"))
+                .andExpect(model().attribute("diabetesRisk", String.valueOf(RiskLevel.None)));;
     }
 
     @Test

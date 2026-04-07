@@ -54,8 +54,6 @@ services:
 
   patient-notes-db:
     image: mongo:6
-    ports:
-      - "27017:27017"
     container_name: patient-notes-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
