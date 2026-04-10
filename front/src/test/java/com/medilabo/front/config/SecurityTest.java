@@ -30,6 +30,12 @@ public class SecurityTest {
     @MockitoBean
     private IPatientDiabetesRiskService patientDiabetesRiskService;
 
+    @MockitoBean
+    private JwtService jwtService;
+
+    @MockitoBean
+    private JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
+
     @Test
     void shouldRedirectToLoginWhenNotAuthenticated() throws Exception {
         mockMvc.perform(get("/patients"))

@@ -4,11 +4,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+    public String handleUnauthorized(HttpClientErrorException ex, Model model) {
+        log.error("Unauthorized: {}", ex.getMessage());
+        model.addAttribute("status", 401);
+        model.addAttribute("message", "Authentification expirée ou invalide");
+        return "error";
+    }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public String handleNotFoundException(NoResourceFoundException ex, Model model) {

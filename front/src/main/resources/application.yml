@@ -15,3 +15,9 @@ gateway:
   patient-notes-path: /patient-notes
   patient-diabetes-risk-path: /patient-diabetes-risk
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION}
+  cookie:
+    secure: ${JWT_COOKIE_SECURE}
+

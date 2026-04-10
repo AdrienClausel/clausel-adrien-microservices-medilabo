@@ -41,7 +41,7 @@ public class PatientControllerTest {
 
     @Test
     @WithMockUser(username = "user")
-    void souldDisplayPatientList() throws Exception {
+    void shouldDisplayPatientList() throws Exception {
 
         when(patientService.getALL()).thenReturn(List.of(
                 new PatientDto(1L, "Jean", "Moulin", LocalDate.of(2001,1,1), "M", null, null)

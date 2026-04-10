@@ -4,6 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+/**
+ * Classe permettant de déterminer automatiquement la page active
+ * en fonction de l'URL de la requête.
+ * Cette classe ajoute à chaque modèle
+ * un attribut "activePage", permettant aux vues
+ * de mettre en évidence le menu actif.
+ */
 @ControllerAdvice
 public class ActivePageAdvice {
 
