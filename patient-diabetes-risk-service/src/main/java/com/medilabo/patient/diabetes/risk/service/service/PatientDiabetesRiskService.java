@@ -19,6 +19,9 @@ import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Service permettant de récupérer le niveau de risque de diabète pour le patient
+ */
 @Service
 public class PatientDiabetesRiskService implements IPatientDiabetesRiskService {
 

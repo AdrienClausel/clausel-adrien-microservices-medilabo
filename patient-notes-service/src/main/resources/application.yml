@@ -13,3 +13,12 @@ spring:
       username: ${PATIENT_NOTES_DB_USER}
       password: ${PATIENT_NOTES_DB_PASSWORD}
       authentication-database: ${PATIENT_NOTES_DB_NAME}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          sign-in-key: ${jwt.secret}
+
+jwt:
+  secret: {JWT_SECRET}
