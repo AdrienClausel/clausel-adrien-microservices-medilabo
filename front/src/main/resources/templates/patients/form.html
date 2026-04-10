@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<th:block th:fragment="content">
+
+    <div class="card">
+        <div class="page-header">
+            <h2 th:text="${pageTitle}"></h2>
+        </div>
+
+        <form th:action="${patient.id != null}
+                ? @{/patients/{id}/form(id=${patient.id})}
+                : @{/patients/form}"
+              th:object="${patient}"
+              method="post">
+
+            <div class="form-group">
+                <label>Prénom *</label>
+                <input type="text" th:field="*{firstName}" th:readonly="${readOnly}" placeholder="Prénom" />
+                <span class="error" th:if="${#fields.hasErrors('firstName')}"
+                      th:errors="*{firstName}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Nom *</label>
+                <input type="text" th:field="*{lastName}" th:readonly="${readOnly}" placeholder="Nom" />
+                <span class="error" th:if="${#fields.hasErrors('lastName')}"
+                      th:errors="*{lastName}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Date de naissance *</label>
+                <input  type="date"
+                        id="dateOfBirth"
+                        name="dateOfBirth"
+                        th:value="${#temporals.format(patient.dateOfBirth, 'yyyy-MM-dd')}"
+                        th:readonly="${readOnly}" />
+                <span class="error" th:if="${#fields.hasErrors('dateOfBirth')}"
+                      th:errors="*{dateOfBirth}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Genre *</label>
+                <select th:field="*{gender}" th:disabled="${readOnly}">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="M">Masculin</option>
+                    <option value="F">Féminin</option>
+                </select>
+                <span class="error" th:if="${#fields.hasErrors('gender')}"
+                      th:errors="*{gender}"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Adresse postale</label>
+                <input type="text" th:field="*{postalAddress}" th:readonly="${readOnly}" placeholder="Adresse" />
+            </div>
+
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="text" th:field="*{phoneNumber}" th:readonly="${readOnly}" placeholder="Téléphone" />
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button type="submit" th:unless="${readOnly}" class="btn btn-primary">Enregistrer</button>
+                <a th:href="@{/patients}" th:unless="${readOnly}" class="btn" style="background:#ccc;">Annuler</a>
+                <a th:href="@{/patients}" th:if="${readOnly}" class="btn" style="background:#ccc;">Retour à la liste</a>
+            </div>
+        </form>
+
+        <div th:if="${readOnly}" style="margin-top: 40px;">
+            <div class="page-header" style="">
+                <h3>Risque de diabète : </h3>
+                <div
+                        th:text="${diabetesRisk}"
+                        class="diabetes-risk-box"
+                        th:classappend="
+                            ${diabetesRisk == 'aucun risque'} ? ' diabetes-risk-none' :
+                            (${diabetesRisk == 'risque limité'} ? ' diabetes-risk-borderline' :
+                            (${diabetesRisk == 'danger'} ? ' diabetes-risk-danger' :
+                            (${diabetesRisk == 'apparition précoce'} ? ' diabetes-risk-early' : '')))
+                ">
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h3>Notes du médecin</h3>
+            </div>
+            <div>
+                <form th:action="@{/patients/{id}/notes(id=${patient.id})}"
+                      method="post"
+                      style="display:flex; gap:10px; align-items:start;">
+                    <textarea name="note"
+                              placeholder="Ajouter une note..."
+                              rows="4"
+                              style="
+                                padding: 8px;
+                                border: 1px solid #ccc;
+                                border-radius: 4px;
+                                width: 100%;
+                                font-family: Arial, sans-serif;
+                                font-size: 0.9rem;
+                                resize: vertical;
+                                margin-bottom: 40px;
+                    "></textarea>
+                    <input type="hidden" name="lastName" th:value="${patient.lastName}" />
+                    <button type="submit" class="btn btn-primary">+ Ajouter</button>
+                </form>
+            </div>
+
+            <table th:if="${notes != null and !#lists.isEmpty(notes)}">
+                <thead>
+                <tr>
+                    <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes}">
+                    <td th:text="${note.note}" style="white-space: pre-wrap;"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <p th:if="${notes == null or #lists.isEmpty(notes)}"
+               style="color:#999; margin-top:10px;">
+                Aucune note enregistrée
+            </p>
+        </div>
+
+    </div>
+</th:block>
+</body>
+</html>

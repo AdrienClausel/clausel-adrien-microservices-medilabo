@@ -1,0 +1,116 @@
+version: '3.8'
+
+services:
+
+  patient-db:
+    image: mysql:8
+    container_name: patient-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PATIENT_DB_NAME}
+      MYSQL_USER: ${PATIENT_DB_USER}
+      MYSQL_PASSWORD: ${PATIENT_DB_PASSWORD}
+    volumes:
+      - patient-db-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - backend-network
+
+  patient-service:
+    build: ./patient-service
+    container_name: patient-service
+    environment:
+      PATIENT_DB_NAME: ${PATIENT_DB_NAME}
+      PATIENT_DB_USER: ${PATIENT_DB_USER}
+      PATIENT_DB_PASSWORD: ${PATIENT_DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
+    depends_on:
+      patient-db:
+        condition: service_healthy
+    networks:
+      - backend-network
+
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
+    depends_on:
+      - patient-service
+    networks:
+      - backend-network
+      - frontend-network
+
+  front:
+    build: ./front
+    container_name: front
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
+      JWT_COOKIE_SECURE: ${JWT_COOKIE_SECURE}
+    ports:
+      - "8081:8080"
+    depends_on:
+      - gateway
+    networks:
+      - frontend-network
+
+  patient-notes-db:
+    image: mongo:6
+    container_name: patient-notes-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${PATIENT_NOTES_DB_NAME}
+    volumes:
+      - patient-notes-db-data:/data/db
+      - ./docker/patient-notes-db/init.sh:/docker-entrypoint-initdb.d/init.sh
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - backend-network
+
+  patient-notes-service:
+    build: ./patient-notes-service
+    container_name: patient-notes-service
+    environment:
+      PATIENT_NOTES_DB_NAME: ${PATIENT_NOTES_DB_NAME}
+      PATIENT_NOTES_DB_USER: ${PATIENT_NOTES_DB_USER}
+      PATIENT_NOTES_DB_PASSWORD: ${PATIENT_NOTES_DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
+    depends_on:
+      patient-notes-db:
+        condition: service_healthy
+    networks:
+      - backend-network
+
+  patient-diabetes-risk-service:
+    build: ./patient-diabetes-risk-service
+    container_name: patient-diabetes-risk-service
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
+    depends_on:
+      - patient-notes-service
+    networks:
+      - backend-network
+
+volumes:
+  patient-db-data:
+  patient-notes-db-data:
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge

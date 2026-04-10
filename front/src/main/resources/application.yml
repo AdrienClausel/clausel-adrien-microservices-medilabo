@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: front
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+gateway:
+  base-url: http://gateway:8080
+  patients-path: /patients
+  patient-notes-path: /patient-notes
+  patient-diabetes-risk-path: /patient-diabetes-risk
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION}
+  cookie:
+    secure: ${JWT_COOKIE_SECURE}
+

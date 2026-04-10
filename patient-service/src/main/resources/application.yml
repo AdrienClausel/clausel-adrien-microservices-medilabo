@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: patient-service
+
+  datasource:
+    url: jdbc:mysql://patient-db:3306/${PATIENT_DB_NAME}
+    username: ${PATIENT_DB_USER}
+    password: ${PATIENT_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          sign-in-key: ${jwt.secret}
+
+jwt:
+  secret: {JWT_SECRET}

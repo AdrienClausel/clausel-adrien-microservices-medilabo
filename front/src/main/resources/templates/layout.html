@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="layout(content)">
+<head>
+    <meta charset="UTF-8">
+    <title>Application</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+<nav class="sidebar">
+    <h2>MédiLabo</h2>
+    <ul>
+        <li>
+            <a th:href="@{/home}"
+               th:classappend="${activePage == 'home'} ? 'active'">
+                🏠 Accueil
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/patients}"
+               th:classappend="${activePage == 'patients'} ? 'active'">
+                👤 Patients
+            </a>
+        </li>
+    </ul>
+    <div class="logout">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-button">
+                🔓 Déconnexion
+            </button>
+        </form>
+    </div>
+</nav>
+
+<main class="main-content">
+    <div th:replace="${content}"></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::content})}">
+<body>
+<th:block th:fragment="content">
+
+    <div class="page-header">
+        <h2>Liste des patients</h2>
+        <a th:href="@{/patients/form}" class="btn btn-primary">
+            + Ajouter un patient
+        </a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Date de naissance</th>
+            <th>Genre</th>
+            <th>Téléphone</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}"
+            th:onclick="|window.location='@{/patients/{id}(id=${patient.id})}'|"
+            style="cursor: pointer;">
+            <td th:text="${patient.firstName}"></td>
+            <td th:text="${patient.lastName}"></td>
+            <td th:text="${#temporals.format(patient.dateOfBirth, 'dd/MM/yyyy')}"></td>
+            <td th:text="${patient.gender}"></td>
+            <td th:text="${patient.phoneNumber}"></td>
+            <td>
+                <a th:href="@{/patients/{id}/form(id=${patient.id})}"
+                   class="btn btn-warning">
+                    ✏️ Modifier
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(patients)}">
+            <td colspan="6" style="text-align:center; color:#999;">
+                Aucun patient enregistré
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</th:block>
+</body>
+</html>

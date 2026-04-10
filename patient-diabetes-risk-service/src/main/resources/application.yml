@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: patient-diabetes-risk-service
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          sign-in-key: ${jwt.secret}
+
+jwt:
+  secret: {JWT_SECRET}
+
+services:
+  patients-url: http://patient-service:8080
+  patient-notes-url: http://patient-notes-service:8080
